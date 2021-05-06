@@ -204,7 +204,8 @@ def ComputeRS(beta):
     global TE
     global table_num
     res = 0
-    max_k = int(table_num*table_num*10/beta)
+    max_k = int(table_num*1.1/beta)
+    max_k = max(1,max_k)
         
     for k in range(max_k):
         #Compute TE first

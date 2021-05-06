@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import psycopg2
 import sys, getopt
@@ -44,11 +43,11 @@ def main(argv):
     try:
         opts, args = getopt.getopt(argv,"h:D:T:t:",["Output=","Database=","Type=","Tstar="])
     except getopt.GetoptError:
-        print("QueryResult.py -D <database> -T <Query Type:0(triangle)/1(t-star)/2(rectangle)/3(5-line-path)> -t <t-star number>")
+        print("QueryResult.py -D <database> -T <Query Type:0(triangle)/1(t-star)/2(rectangle)/3(2-triangle)> -t <t-star number>")
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print("QueryResult.py -D <database> -T <Query Type:0(triangle)/1(t-star)/2(rectangle)/3(5-line-path)> -t <t-star number>")
+            print("QueryResult.py -D <database> -T <Query Type:0(triangle)/1(t-star)/2(rectangle)/3(2-triangle)> -t <t-star number>")
             sys.exit()
         elif opt in ("-D","--Database"):
             database_name = arg

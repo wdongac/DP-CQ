@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import sys, getopt, math
 import numpy
@@ -9,6 +8,7 @@ def ReadData():
     global a
     global b
     global c
+    global query_type 
     id_dic = {}
     input_file = open(input_path,'r')
     nodes_num = 0
@@ -38,25 +38,29 @@ def ReadData():
     a = []
     b = []
     c = []
-    matrix_res = numpy.dot(edges,edges)
-    a_dic = {}
-    for i in range(nodes_num):
-        degree_t = degree[i]
-        for j in range(nodes_num):
-            if i==j:
-                continue
-            a_t = matrix_res[i][j]
-            b_t = degree[i]+degree[j]-2*a_t
-            
-            if a_t not in a_dic.keys():
-                a_dic[a_t] = b_t
-            elif b_t>a_dic[a_t]:
-                a_dic[a_t] = b_t
-        c.append(degree_t)
-    for a_t in a_dic.keys():
-        a.append(a_t)
-        b.append(a_dic[a_t])
     
+    if query_type==0:
+        matrix_res = numpy.dot(edges,edges)
+        a_dic = {}
+        for i in range(nodes_num):
+            for j in range(nodes_num):
+                if i==j:
+                    continue
+                a_t = matrix_res[i][j]
+                b_t = degree[i]+degree[j]-2*a_t
+                
+                if a_t not in a_dic.keys():
+                    a_dic[a_t] = b_t
+                elif b_t>a_dic[a_t]:
+                    a_dic[a_t] = b_t
+        for a_t in a_dic.keys():
+            a.append(a_t)
+            b.append(a_dic[a_t])
+    else:
+        for i in range(nodes_num):
+            degree_t = degree[i]
+            c.append(degree_t)
+        
     
     
 def ComputeSSTriangle(beta):
@@ -88,7 +92,7 @@ def ComputeSSTStar(beta,t):
     global c
     res = 0
     max_c = max(c)
-    for i in range(int(t*10000)):
+    for i in range(int(t*100000)):
         ls_i = fac(max_c+i,t-1)/fac(t-1,t-1)*pow(math.e,-1*beta*i)
         if res<ls_i:
             res = ls_i
